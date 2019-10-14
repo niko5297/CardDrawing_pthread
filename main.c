@@ -16,18 +16,23 @@ bool diamondsbool[14] = {false,false,false,false,false,false,false,false,false,f
     pthread_mutex_t pthread_draw, pthread_read;
 
 
-void *draw(){
+int draw(){
     int d;
     pthread_mutex_lock(&pthread_draw);
     // Current time as seed for random
     srand(time(0));
+    printf("Drawing card using pthread_draw...\n");
         d = rand()%13+1;
-        printf("%d ",d);
+        //printf("%d ",d);
     pthread_mutex_unlock(&pthread_draw);
-
+    return d;
 }
 
-void *read(void *arg){
+void read(int arg){
+    pthread_mutex_lock(&pthread_read);
+    printf("Reading card using pthread_read...\n");
+    printf("%s", hearts[arg]);
+    pthread_mutex_unlock(&pthread_read);
 
 }
 
@@ -42,7 +47,8 @@ int main() {
     pthread_mutex_init(&pthread_read,NULL);
 
 
-    draw();
+    int elementNumber = draw();
+    read(elementNumber);
 
-    //printf("%c",hearts[13][0]);
+    //printf("%s",hearts[8]);
 }
