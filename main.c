@@ -15,13 +15,6 @@ bool clubsbool[14] = {false,false,false,false,false,false,false,false,false,fals
 char diamonds[14][13] = {"Ace","1","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
 bool diamondsbool[14] = {false,false,false,false,false,false,false,false,false,false,false,false,false,false};
     pthread_mutex_t pthread_draw, pthread_read, pthread_check;
-    /**
-     * Læs op på pthread_mutex, da dette kun skal bruges som lås og IKKE thread.
-     * Lav derfor nye threads i din main.
-     * https://randu.org/tutorials/threads/
-     * https://dev.to/quantumsheep/basics-of-multithreading-in-c-4pam
-     * @return
-     */
 
 
 int drawCard(){
@@ -142,6 +135,14 @@ int main() {
      * Mere mellemrum når du får vist det kort du har trukket. Det ser lidt forvirrende ud
      * Skal pthread_mutex_init bruges før eller efter while loopet?
      */
+
+    /**
+    * Læs op på pthread_mutex, da dette kun skal bruges som lås og IKKE thread.
+    * Lav derfor nye threads i din main.
+    * https://randu.org/tutorials/threads/
+    * https://dev.to/quantumsheep/basics-of-multithreading-in-c-4pam
+    */
+
     int cardNumber, cardType, hasTheCardBeenDrawn, numberOfCardsBeingDrawn;
     int firstTime = 0;
 
