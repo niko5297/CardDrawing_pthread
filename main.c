@@ -51,7 +51,7 @@ int drawType(){
 
 int checkCard(int type, int number){
     pthread_mutex_lock(&pthread_check);
-    printf("Checking the card pthread_check...\n");
+    printf("Checking the card from pthread_check...\n");
 
     switch(type){
         case 1:
@@ -102,8 +102,30 @@ int checkCard(int type, int number){
 
 void readCard(int type, int number){
     pthread_mutex_lock(&pthread_read);
-    printf("Reading card using pthread_read...\n");
+    printf("Reading card from pthread_read...\n");
 
+
+    if (type==1){
+        printf("You have drawn %s of Hearts\n",hearts[number]);
+        heartsbool[number] = true;
+
+    }
+    if (type==2){
+        printf("You have drawn %s of Spades\n",spades[number]);
+        spadesbool[number] = true;
+
+    }
+    if (type==3){
+        printf("You have drawn %s of Clubs\n",clubs[number]);
+        clubsbool[number] = true;
+
+    }
+    if (type==4){
+        printf("You have drawn %s of Diamonds\n",diamonds[number]);
+        diamondsbool[number] = true;
+
+    }
+    sleep(1);
 
     pthread_mutex_unlock(&pthread_read);
 
@@ -113,9 +135,8 @@ void readCard(int type, int number){
 
 
 int main() {
-    /**
-     * Læs op på pthread_join
-     */
+
+
     pthread_mutex_init(&pthread_draw,NULL);
     pthread_mutex_init(&pthread_check,NULL);
     pthread_mutex_init(&pthread_read,NULL);
@@ -134,10 +155,9 @@ int main() {
 
    // printf("%d",checkCard(1,1));
 
-  /*  if (!hasTheCardBeenDrawn){
+   if (hasTheCardBeenDrawn){
         readCard(cardType,cardNumber);
     }
-    */
 
 
 
