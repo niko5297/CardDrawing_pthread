@@ -1,0 +1,12 @@
+https://cn.inside.dtu.dk/cnnet/filesharing/download/aa52fcfc-e59e-4e9a-b389-5e61cedda2e0
+Basic use of Pthreads provided by lecturer, written by Peter Seebach
+
+
+Operating Systems – Internals and design Principles by William Stallings 9th Edition
+
+
+https://dev.to/quantumsheep/basics-of-multithreading-in-c-4pam
+
+
+https://randu.org/tutorials/threads/
+
