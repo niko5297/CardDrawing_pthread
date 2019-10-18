@@ -135,43 +135,58 @@ void readCard(int type, int number){
 
 
 int main() {
-
-
-    pthread_mutex_init(&pthread_draw,NULL);
-    pthread_mutex_init(&pthread_check,NULL);
-    pthread_mutex_init(&pthread_read,NULL);
-
-
-
-
-
-    int cardNumber, cardType, hasTheCardBeenDrawn;
-
-    cardType = drawType();
-    cardNumber = drawCard();
-    hasTheCardBeenDrawn = checkCard(cardType,cardNumber);
-
-    printf("%d %d\n",cardNumber,cardType);
-
-   // printf("%d",checkCard(1,1));
-
-   if (hasTheCardBeenDrawn){
-        readCard(cardType,cardNumber);
-    }
-
-
-
-
-
-
-
-
-    /*for (int i = 0; i < 2; ++i) {
-        printf("%d ", *(elementNumber+i));
-    }
+    //TODO:
+    /**
+     * Find en måde hvorpå at der vises en introduktion før scanf.
+     * Husk at når der ikke er flere kort tilbage skal spillet slutte.
+     * Mere mellemrum når du får vist det kort du har trukket. Det ser lidt forvirrende ud
+     * Skal pthread_mutex_init bruges før eller efter while loopet?
      */
+    int cardNumber, cardType, hasTheCardBeenDrawn, numberOfCardsBeingDrawn;
+    int firstTime = 0;
 
-    //read(elementNumber[]);
 
-    //printf("%s",hearts[8]);
+    printf("This program lets you draw and read cards using multithreaded pthread_mutex\n");
+
+    printf("How many cards do you want to draw?\n");
+
+    while (scanf("%d", &numberOfCardsBeingDrawn)!=0) {
+
+        if (firstTime==1){
+            printf("How many cards do you want to draw?\n");
+        }
+        firstTime=1;
+
+        pthread_mutex_init(&pthread_draw, NULL);
+        pthread_mutex_init(&pthread_check, NULL);
+        pthread_mutex_init(&pthread_read, NULL);
+
+        for (int i = 0; i < numberOfCardsBeingDrawn; ++i) {
+
+
+            cardType = drawType();
+            cardNumber = drawCard();
+            hasTheCardBeenDrawn = checkCard(cardType, cardNumber);
+
+            if (hasTheCardBeenDrawn) {
+                readCard(cardType, cardNumber);
+            }
+
+
+
+
+
+
+
+
+            /*for (int i = 0; i < 2; ++i) {
+                printf("%d ", *(elementNumber+i));
+            }
+             */
+
+            //read(elementNumber[]);
+
+            //printf("%s",hearts[8]);
+        }
+    }
 }
