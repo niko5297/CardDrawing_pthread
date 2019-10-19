@@ -35,9 +35,6 @@ int drawType(){
     pthread_mutex_lock(&pthread_type);
     printf("Selecting random cardtype from pthread_draw...\n");
     type = rand()%4+1;
-    if (numberOfHeartsLeft==0){
-        type = rand()%3+2;
-    }
     sleep(1);
     pthread_mutex_unlock(&pthread_type);
     return type;
