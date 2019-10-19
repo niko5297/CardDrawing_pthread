@@ -133,7 +133,6 @@ void readCard(int type, int number){
 int main() {
     //TODO:
     /**
-     * Find en måde hvorpå at der vises en introduktion før scanf.
      * Find bedre løsning til et kort der er blevet trukket.
      */
 
@@ -145,7 +144,6 @@ int main() {
     */
 
     int cardNumber, cardType, hasTheCardBeenDrawn, numberOfCardsBeingDrawn;
-    int firstTime = 0;
 
     pthread_mutex_init(&pthread_draw, NULL);
     pthread_mutex_init(&pthread_check, NULL);
@@ -154,51 +152,45 @@ int main() {
 
     printf("This program lets you draw and read cards using multithreaded pthread_mutex\n");
 
-    printf("How many cards do you want to draw?\n");
+    while (1) {
+        printf("How many cards do you want to draw?\n");
 
-    while (scanf("%d", &numberOfCardsBeingDrawn)!=0) {
-        srand(0);
-        if (numberOfCardsLeft==0){
-            printf("The game is over.... There is no more cards left\n");
-            exit(0);
-        }
-
-        if (firstTime==1){
-            printf("How many cards do you want to draw?\n");
-        }
-        firstTime=1;
-
-
-
-        for (int i = 0; i < numberOfCardsBeingDrawn; ++i) {
-
-            if (numberOfCardsLeft == 0){
+        while (scanf("%d", &numberOfCardsBeingDrawn) != 0) {
+            srand(0);
+            if (numberOfCardsLeft == 0) {
                 printf("The game is over.... There is no more cards left\n");
                 exit(0);
             }
 
-            cardType = drawType();
-            cardNumber = drawCard();
-            printf("%d", cardType);
-            hasTheCardBeenDrawn = checkCard(cardType, cardNumber);
+            for (int i = 0; i < numberOfCardsBeingDrawn; ++i) {
 
-            do {
-                if (hasTheCardBeenDrawn) {
-                    readCard(cardType, cardNumber);
-                    break;
+                if (numberOfCardsLeft == 0) {
+                    printf("The game is over.... There is no more cards left\n");
+                    exit(0);
                 }
-                printf("The selected card has been drawn before, drawing a new one\n\n");
-                srand(0);
+
                 cardType = drawType();
                 cardNumber = drawCard();
                 hasTheCardBeenDrawn = checkCard(cardType, cardNumber);
-            } while (!hasTheCardBeenDrawn);
-        }
 
-            if (numberOfCardsLeft == 0){
+                do {
+                    if (hasTheCardBeenDrawn) {
+                        readCard(cardType, cardNumber);
+                        break;
+                    }
+                    printf("The selected card has been drawn before, drawing a new one\n\n");
+                    srand(0);
+                    cardType = drawType();
+                    cardNumber = drawCard();
+                    hasTheCardBeenDrawn = checkCard(cardType, cardNumber);
+                } while (!hasTheCardBeenDrawn);
+            }
+
+            if (numberOfCardsLeft == 0) {
                 printf("The game is over.... There is no more cards left\n");
                 exit(0);
             }
+            break;
 
 
 
@@ -217,3 +209,4 @@ int main() {
             //printf("%s",hearts[8]);
         }
     }
+}
