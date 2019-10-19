@@ -15,7 +15,7 @@ bool clubsbool[14] = {false,false,false,false,false,false,false,false,false,fals
 char diamonds[14][13] = {"Ace","1","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
 bool diamondsbool[14] = {false,false,false,false,false,false,false,false,false,false,false,false,false,false};
     pthread_mutex_t pthread_draw, pthread_read, pthread_check, pthread_type;
-int numberOfCardsLeft=56;
+int numberOfCardsLeft=56, numberOfHeartsLeft=14, numberOfSpadesLeft=14, numberOfClubsLeft=14,numberOfDiamondsLeft=14;
 
 
 int drawCard(){
@@ -35,6 +35,9 @@ int drawType(){
     pthread_mutex_lock(&pthread_type);
     printf("Selecting random cardtype from pthread_draw...\n");
     type = rand()%4+1;
+    if (numberOfHeartsLeft==0){
+        type = rand()%3+2;
+    }
     sleep(1);
     pthread_mutex_unlock(&pthread_type);
     return type;
@@ -50,6 +53,7 @@ int checkCard(int type, int number){
             if (heartsbool[number] == false){
                 sleep(1);
                 numberOfCardsLeft--;
+                numberOfHeartsLeft--;
                 pthread_mutex_unlock(&pthread_check);
                 return 1;
             }
@@ -61,6 +65,7 @@ int checkCard(int type, int number){
             if (spadesbool[number] == false){
                 sleep(1);
                 numberOfCardsLeft--;
+                numberOfSpadesLeft--;
                 pthread_mutex_unlock(&pthread_check);
                 return 1;
             }
@@ -72,6 +77,7 @@ int checkCard(int type, int number){
             if (clubsbool[number] == false){
                 sleep(1);
                 numberOfCardsLeft--;
+                numberOfClubsLeft--;
                 pthread_mutex_unlock(&pthread_check);
                 return 1;
             }
@@ -83,6 +89,7 @@ int checkCard(int type, int number){
             if (diamondsbool[number] == false){
                 sleep(1);
                 numberOfCardsLeft--;
+                numberOfDiamondsLeft--;
                 pthread_mutex_unlock(&pthread_check);
                 return 1;
             }
