@@ -154,17 +154,6 @@ void readCard(int type, int number) {
 
 
 int main() {
-    //TODO:
-    /**
-     * Find bedre løsning til et kort der er blevet trukket.
-     */
-
-    /**
-    * Læs op på pthread_mutex, da dette kun skal bruges som lås og IKKE thread.
-    * Lav derfor nye threads i din main.
-    * https://randu.org/tutorials/threads/
-    * https://dev.to/quantumsheep/basics-of-multithreading-in-c-4pam
-    */
 
     //Initialize variables
     int cardNumber, cardType, hasTheCardBeenDrawn, numberOfCardsBeingDrawn;
