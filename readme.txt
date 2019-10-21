@@ -11,6 +11,8 @@ If you are using a terminal, remember to compiler it first, or it won't run.
 To check if the threads are working properly, you can try remove the sleep function. If you do so, the program will keep
 printing "The selected card has been drawn before, drawing a new one", which means that the system can't reconize which
 cards have been drawn and which not.
+You can also try to remove one mutex_unlock function, and the program will not continue running, because one of the threads are
+locked, and the main thread is waiting for the thread to unlock.
 By multithreading the program will run faster, and by using mutal exclusing, the chances of a deadlock is enormously decreased.
 
 
