@@ -1,3 +1,5 @@
+MADE BY NIKOLAJ WASSMANN - S185082
+
 This program is a card drawing game. The game uses 4 threads to draw (2 threads), check (1 thread)
 and read (1 thread) the random selected card - therefore it uses multithreading.
 The program achives mutual exclusion by using pthread_mutex.

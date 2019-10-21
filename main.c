@@ -164,7 +164,8 @@ int main() {
     pthread_mutex_init(&pthread_read, NULL);
     pthread_mutex_init(&pthread_type, NULL);
 
-    printf("This program lets you draw and read cards using multithreaded pthread_mutex\n");
+    printf("\nThis program lets you draw and read cards using multithreaded pthread_mutex\n\n");
+    printf("Made by Nikolaj Wassmann - s185082\n\n");
 
     //Main loop
     while (1) {
