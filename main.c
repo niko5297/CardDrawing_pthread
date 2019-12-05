@@ -33,10 +33,11 @@ int numberOfClubsLeft = 14;
 int numberOfDiamondsLeft = 14;
 int cardsLeft;
 
+
 /**
- *
- * @param bag
- * @return
+ * This method shows how multithreading card drawing game works.
+ * The program draw a type, a card and shows the user the card.
+ * @return the card which have been drawn or error, the card has already been drawn
  */
 void* run() {
     int random;
