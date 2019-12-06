@@ -123,10 +123,12 @@ void *readCard(int number, int type) {
  * @return the card which have been drawn or error, the card has already been drawn
  */
 void *run() {
+    // Lock the mutex number
     pthread_mutex_lock(&mutex_number);
     int number = rand() % 13 + 1;
     pthread_mutex_unlock(&mutex_number);
 
+    // Lock the mutex type
     pthread_mutex_lock(&mutex_type);
     int type = rand() % 4 + 1;
     pthread_mutex_unlock(&mutex_type);
@@ -135,9 +137,11 @@ void *run() {
 
     // Sleep threads to see what happens
     sleep(1);
+
+    // Call the readCard() with the random chosen number and type
     readCard(number, type);
 
-    // Exit threads
+    // Exit threads when done
     pthread_exit(0);
 }
 
@@ -155,6 +159,7 @@ int main() {
     srand(time(0));
 
     printf("\nThis program lets you draw and read cards using multithreaded pthread_mutex\n\n");
+
     printf("Made by Nikolaj Wassmann - s185082\n\n");
 
 
@@ -172,7 +177,7 @@ int main() {
 
         int numberOfThreadsToJoin = numberOfCardsToBeDrawn;
 
-        pthread_t threads[MAX_CARDS] = {};
+        pthread_t threads[MAX_CARDS];
 
         // Create all the number of threads equivalent to the cards being drawn
         for (int i = 0; i < numberOfCardsToBeDrawn; i++) {
