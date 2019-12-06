@@ -24,7 +24,7 @@ char diamonds[14][13] = {"Ace", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10
 bool diamondsbool[14] = {false, false, false, false, false, false, false, false, false, false, false, false, false,
                          false};
 
-pthread_mutex_t mutex_draw;
+pthread_mutex_t mutex_read;
 pthread_mutex_t mutex_number;
 pthread_mutex_t mutex_type;
 int numberOfCardsLeft = MAX_CARDS;
@@ -36,8 +36,90 @@ int numberOfCardsToBeDrawn;
 
 
 /**
+ * This method reads the given number and type of card
+ * and then displays it for the user
+ * @param number, the card number (King, 10, 5, etc.)
+ * @param type, the type of card (hearts, spades etc.)
+ * @return a print of the chosen card
+ */
+
+void *readCard(int number, int type) {
+    switch (type) {
+        case 1:
+            pthread_mutex_lock(&mutex_read);
+            if (heartsbool[number] == false) {
+                heartsbool[number] = true;
+                numberOfCardsLeft--;
+                numberOfHeartsLeft--;
+                printf("You have drawn %s of Hearts\n\n",
+                       hearts[number]);
+            } else {
+                printf("Already removed, drawn %s of Hearts\n\n",
+                       hearts[number]);
+            }
+            pthread_mutex_unlock(&mutex_read);
+
+            // Sleep threads to see what happens
+            sleep(1);
+            break;
+        case 2:
+            pthread_mutex_lock(&mutex_read);
+            if (spadesbool[number] == false) {
+                spadesbool[number] = true;
+                numberOfCardsLeft--;
+                numberOfSpadesLeft--;
+                printf("You have drawn %s of Spades\n\n",
+                       spades[number]);
+            } else {
+                printf("Already removed, drawn %s of Spades\n\n",
+                       spades[number]);
+            }
+            pthread_mutex_unlock(&mutex_read);
+
+            // Sleep threads to see what happens
+            sleep(1);
+            break;
+        case 3:
+            pthread_mutex_lock(&mutex_read);
+            if (clubsbool[number] == false) {
+                clubsbool[number] = true;
+                numberOfCardsLeft--;
+                numberOfClubsLeft--;
+                printf("You have drawn %s of Clubs\n\n",
+                       clubs[number]);
+            } else {
+                printf("Already removed, drawn %s of Clubs\n\n",
+                       clubs[number]);
+            }
+            pthread_mutex_unlock(&mutex_read);
+
+            // Sleep threads to see what happens
+            sleep(1);
+            break;
+        case 4:
+            pthread_mutex_lock(&mutex_read);
+            if (diamondsbool[number] == false) {
+                diamondsbool[number] = true;
+                numberOfCardsLeft--;
+                numberOfDiamondsLeft--;
+                printf("You have drawn %s of Diamonds\n\n",
+                       diamonds[number]);
+            } else {
+                printf("Already removed, drawn %s of Diamonds\n\n",
+                       diamonds[number]);
+            }
+            pthread_mutex_unlock(&mutex_read);
+
+            // Sleep threads to see what happens
+            sleep(1);
+            break;
+    }
+}
+
+/**
  * This method shows how multithreading card drawing game works.
- * The program draw a type, a card and shows the user the card.
+ * The method draws a type and a card.
+ * It calls a help method which displays the user the card.
  * @return the card which have been drawn or error, the card has already been drawn
  */
 void *run() {
@@ -51,76 +133,18 @@ void *run() {
 
     printf("Checking the card from pthread_check...\n");
 
+    // Sleep threads to see what happens
     sleep(1);
-    switch (type) {
-        case 1:
-            pthread_mutex_lock(&mutex_draw);
-            if (heartsbool[number] == false) {
-                heartsbool[number] = true;
-                numberOfCardsLeft--;
-                numberOfHeartsLeft--;
-                printf("You have drawn %s of Hearts\n\n",
-                       hearts[number]);
-            } else {
-                printf("Already removed, drawn %s of Hearts\n\n",
-                       hearts[number]);
-            }
-            pthread_mutex_unlock(&mutex_draw);
-            sleep(1);
-            break;
-        case 2:
-            pthread_mutex_lock(&mutex_draw);
-            if (spadesbool[number] == false) {
-                spadesbool[number] = true;
-                numberOfCardsLeft--;
-                numberOfSpadesLeft--;
-                printf("You have drawn %s of Spades\n\n",
-                       spades[number]);
-            } else {
-                printf("Already removed, drawn %s of Spades\n\n",
-                       spades[number]);
-            }
-            pthread_mutex_unlock(&mutex_draw);
-            sleep(1);
-            break;
-        case 3:
-            pthread_mutex_lock(&mutex_draw);
-            if (clubsbool[number] == false) {
-                clubsbool[number] = true;
-                numberOfCardsLeft--;
-                numberOfClubsLeft--;
-                printf("You have drawn %s of Clubs\n\n",
-                       clubs[number]);
-            } else {
-                printf("Already removed, drawn %s of Clubs\n\n",
-                       clubs[number]);
-            }
-            pthread_mutex_unlock(&mutex_draw);
-            sleep(1);
-            break;
-        case 4:
-            pthread_mutex_lock(&mutex_draw);
-            if (diamondsbool[number] == false) {
-                diamondsbool[number] = true;
-                numberOfCardsLeft--;
-                numberOfDiamondsLeft--;
-                printf("You have drawn %s of Diamonds\n\n",
-                       diamonds[number]);
-            } else {
-                printf("Already removed, drawn %s of Diamonds\n\n",
-                       diamonds[number]);
-            }
-            pthread_mutex_unlock(&mutex_draw);
-            sleep(1);
-            break;
-    }
+    readCard(number, type);
+
+    // Exit threads
     pthread_exit(0);
 }
 
 
 int main() {
     //Initialize pthread_mutex;
-    if (pthread_mutex_init(&mutex_draw, NULL) != 0 &&
+    if (pthread_mutex_init(&mutex_read, NULL) != 0 &&
         pthread_mutex_init(&mutex_number, NULL) != 0 &&
         pthread_mutex_init(&mutex_type, NULL) != 0) {
         printf("Mutex init failed, closing program...\n");
@@ -171,7 +195,7 @@ int main() {
     }
 
     //To prevent memory leak, destory mutex
-    pthread_mutex_destroy(&mutex_draw);
+    pthread_mutex_destroy(&mutex_read);
     pthread_mutex_destroy(&mutex_number);
     pthread_mutex_destroy(&mutex_type);
 }
